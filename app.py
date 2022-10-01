@@ -21,8 +21,13 @@ def upload():
 
 @app.route('/search', methods=['POST'])
 def search():
-	f = request.form.get('query')
-	return predict()
+	content_type = request.headers.get('Content-Type')
+    if (content_type == 'application/json'):
+        json = request.json
+        return json
+    else:
+        return 'Content-Type not supported!'
+	# return predict()
 
 if __name__ == '__main__':
 	app.run(debug = True)
