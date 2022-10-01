@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, render_template
 from werkzeug.utils import secure_filename
 from flask_cors import CORS
 from model_interface import train, predict
@@ -9,8 +9,7 @@ CORS(app)
 # demo form
 @app.route('/')
 def hello():
-	return '<form action = "/upload" method = "POST" enctype = "multipart/form-data"> <input type = "file" name = "file" /><input type = "submit"/></form> <form action = "/search" method = "POST" enctype = "multipart/form-data"> <input type = "text" name = "query" /><input type = "submit"/></form>'
-
+	return render_template('index.html', context=context)
 # upload txt files
 @app.route('/upload', methods=['POST'])
 def upload():
