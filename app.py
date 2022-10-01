@@ -13,6 +13,7 @@ def hello():
 
 # upload txt files
 @app.route('/upload', methods=['POST'])
+@cross_origin(origin='*')
 def upload():
 	f = request.files['file']
 	f.save(secure_filename(f.filename))
@@ -20,6 +21,7 @@ def upload():
 	return 'file uploaded successfully'
 
 @app.route('/search', methods=['POST'])
+@cross_origin(origin='*')
 def search():
 	content_type = request.headers.get('Content-Type')
     if (content_type == 'application/json'):
