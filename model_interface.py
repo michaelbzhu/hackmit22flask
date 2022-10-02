@@ -4,6 +4,16 @@ import time
 import os
 import csv
 
+dataset_path = './data/my_knowledge_dataset'
+index_path = './data/my_knowledge_dataset_hnsw_index.faiss'
+    
+retriever = RagRetriever.from_pretrained("facebook/rag-token-nq", index_name="custom", passages_path=dataset_path, index_path=index_path)
+tokenizer = RagTokenizer.from_pretrained("facebook/rag-token-nq")
+model = RagTokenForGeneration.from_pretrained("facebook/rag-token-nq", retriever=retriever)
+
+input_ids = tokenizer("hello world", return_tensors="pt").input_ids
+
+
 def train(text):
     try:
         # convert text to csv
@@ -14,21 +24,16 @@ def train(text):
             writer.writerow([0, text])
         # convert csv into my_knowledge_dataset
         os.system('python use_my_knowledge_dataset.py --csv_path ./new_data.csv --output_dir ./data')
-        return true
+    
+        retriever = RagRetriever.from_pretrained("facebook/rag-token-nq", index_name="custom", passages_path=dataset_path, index_path=index_path)
+        model = RagTokenForGeneration.from_pretrained("facebook/rag-token-nq", retriever=retriever)
+
+        return True
     except:
-        return false
+        return False
 
 def predict(query):
     print('predicting')
-
-    dataset_path = './data/my_knowledge_dataset'
-    index_path = './data/my_knowledge_dataset_hnsw_index.faiss'
-    
-    retriever = RagRetriever.from_pretrained("facebook/rag-token-nq", index_name="custom", passages_path=dataset_path, index_path=index_path)
-    tokenizer = RagTokenizer.from_pretrained("facebook/rag-token-nq")
-    model = RagTokenForGeneration.from_pretrained("facebook/rag-token-nq", retriever=retriever)
-
-    input_ids = tokenizer("hello world", return_tensors="pt").input_ids
 
     s = time.time()
     input_ids = tokenizer(query, return_tensors="pt").input_ids

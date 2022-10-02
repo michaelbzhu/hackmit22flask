@@ -28,7 +28,7 @@ def upload_text():
 		print(json)
 		query = json['query']
 		tokenizer_success = train(query)
-		return tokenizer_success
+		return [tokenizer_success]
 	else:
 		return 'Content-Type not supported!'
 
