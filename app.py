@@ -25,7 +25,10 @@ def upload_text():
 	content_type = request.headers.get('Content-Type')
 	if content_type == 'application/json':
 		json = request.json
-		return json
+		query = json.query
+		print(query)
+		tokenizer_success = len(query) % 2 == 0
+		return tokenizer_success
 	else:
 		return 'Content-Type not supported!'
 
