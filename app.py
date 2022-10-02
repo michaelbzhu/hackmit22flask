@@ -26,7 +26,8 @@ def upload_text():
 	if content_type == 'application/json':
 		json = request.json
 		print(json)
-		tokenizer_success = len(json) % 2 == 0
+		query = json['query']
+		tokenizer_success = train(query)
 		return tokenizer_success
 	else:
 		return 'Content-Type not supported!'
@@ -36,7 +37,9 @@ def search():
 	content_type = request.headers.get('Content-Type')
 	if content_type == 'application/json':
 		json = request.json
-		return json
+		query = json['query']
+		output = predict(query)
+		return output
 	else:
 		return 'Content-Type not supported!'
 	# return predict()
