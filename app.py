@@ -19,6 +19,16 @@ def upload():
 	train()
 	return 'file uploaded successfully'
 
+# upload text 
+@app.route('/uploadText', methods=['POST'])
+def upload_text():
+	content_type = request.headers.get('Content-Type')
+	if content_type == 'application/json':
+		json = request.json
+		return json
+	else:
+		return 'Content-Type not supported!'
+
 @app.route('/search', methods=['POST'])
 def search():
 	content_type = request.headers.get('Content-Type')
